@@ -1,4 +1,7 @@
+
 <?php
+
+
 include("config/db.php");
 
 error_reporting(E_ALL);
@@ -21,17 +24,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
     $stmt->bind_param("ssssssss", $name, $email, $department, $gpa, $current_cgpa, $study_hours, $attendance, $job_hours);
 
-    if($stmt->execute()){
-        echo "Data inserted successfully!";
-    } else {
-        echo "Error: " . $stmt->error;
-    }
+    session_start();  // start session
+
+if($stmt->execute()){
+    
+    // store the inserted student's ID in session
+    $_SESSION['student_id'] = $conn->insert_id;
+
+    echo "Data inserted successfully!";
+
+} else {
+    echo "Error: " . $stmt->error;
+}
+
 }
 ?>
 
 
 <?php include("templates/header.php"); ?>
-<?php include("templates/sidebar.php"); ?>
+
 
 <div class="main">
 
